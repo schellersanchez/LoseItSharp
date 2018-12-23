@@ -195,6 +195,15 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812230100422_Initial.cs" />
+    <Compile Include="Migrations\201812230100422_Initial.Designer.cs">
+      <DependentUpon>201812230100422_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812230122356_SeedDefaultUsers.cs" />
+    <Compile Include="Migrations\201812230122356_SeedDefaultUsers.Designer.cs">
+      <DependentUpon>201812230122356_SeedDefaultUsers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -319,6 +328,14 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\index.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201812230100422_Initial.resx">
+      <DependentUpon>201812230100422_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812230122356_SeedDefaultUsers.resx">
+      <DependentUpon>201812230122356_SeedDefaultUsers.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

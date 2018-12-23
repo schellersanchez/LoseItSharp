@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using LoseItSharp.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace LoseItSharp.Controllers
 {
@@ -155,6 +156,14 @@ namespace LoseItSharp.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+
+                    //// Temp code to create an Administrator account for seeding purposes
+                    //var rolestore = new RoleStore<IdentityRole>(new ApplicationDbContext());
+                    //var roleManager = new RoleManager<IdentityRole>(rolestore);
+                    //await roleManager.CreateAsync(new IdentityRole("Administrator"));
+                    //await UserManager.AddToRoleAsync(user.Id, "Administrator");
+
+
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
