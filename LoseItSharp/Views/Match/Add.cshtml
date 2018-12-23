@@ -1,0 +1,42 @@
+﻿@model LoseItSharp.Models.Match
+
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add</h2>
+
+@using (Html.BeginForm("Add", "Match"))
+{
+    @Html.AntiForgeryToken()
+    <div class="">
+        <div class="form-group">
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.MatchName, new { @class = "" })
+            @Html.TextBoxFor(m => m.MatchName, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+
+            @Html.LabelFor(m => m.MatchStart, new { @class = "" })
+            @Html.TextBoxFor(m => m.MatchStart, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.NumberOfWeeks, new { @class = "" })
+            @Html.TextBoxFor(m => m.NumberOfWeeks, new { @class = "form-control required" })
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary">Add Match</button>
+        </div>
+        <div class="form-group">
+
+
+
+        </div>
+    </div>
+
+
+}
+

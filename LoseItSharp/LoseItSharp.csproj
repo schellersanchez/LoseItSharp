@@ -192,6 +192,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MatchController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -210,6 +211,10 @@
     <Compile Include="Migrations\201812230313479_AddedDbSet.cs" />
     <Compile Include="Migrations\201812230313479_AddedDbSet.Designer.cs">
       <DependentUpon>201812230313479_AddedDbSet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812230333358_AddedAdditionalFieldsToMatch.cs" />
+    <Compile Include="Migrations\201812230333358_AddedAdditionalFieldsToMatch.Designer.cs">
+      <DependentUpon>201812230333358_AddedAdditionalFieldsToMatch.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -327,6 +332,8 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Match\Add.cshtml" />
+    <Content Include="Views\Match\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -352,6 +359,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812230313479_AddedDbSet.resx">
       <DependentUpon>201812230313479_AddedDbSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812230333358_AddedAdditionalFieldsToMatch.resx">
+      <DependentUpon>201812230333358_AddedAdditionalFieldsToMatch.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

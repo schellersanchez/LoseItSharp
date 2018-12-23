@@ -1,0 +1,18 @@
+﻿@model List<LoseItSharp.Models.Match>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+<ul>
+
+</ul>
+@foreach(var item in Model)
+{
+    <li>
+        @item.MatchName
+    </li>
+}
+
