@@ -6,13 +6,57 @@
 }
 
 <h2>Index</h2>
-<ul>
+<div class="row">
+    <div id="resultMessage" class="alert-primary" ></div>
+</div>
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <td>Match Name</td>
+            <td>Start Date</td>
+            <td>End Date</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MatchName</td>
+                <td>@item.MatchStart</td>
+                <td>@item.MatchEnd</td>
+                <td><button class="btn btn-outline-primary btnJoin" data-matchId=@item.Id>Join</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
 
-</ul>
-@foreach(var item in Model)
+
+@foreach (var item in Model)
 {
     <li>
         @item.MatchName
     </li>
 }
 
+@section Scripts{
+    <script>
+        $(document).ready(function() {
+            $('.btnJoin').click(function () {
+                var button = $(this);
+                $.ajax({
+                    url: "/match/join/" + button.attr("data-matchId"),
+                    type: 'POST',
+                    cache: 'false',
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        $('#resultMessage').html(data);
+                    }
+                });
+            });
+
+
+        });
+
+    </script>
+    }

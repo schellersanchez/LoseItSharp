@@ -18,6 +18,38 @@ namespace LoseItSharp.Controllers
             return View(matchesInDb);
         }
 
+        [HttpPost]
+        public string Join(string Id)
+        {
+            //TODO: join
+
+            //check if user is logged in
+            if (!User.Identity.IsAuthenticated)
+            {
+                ViewBag.Message = "Please Log in before joining";
+                return "Please Log in before joining";
+            }
+
+            int matchId = 0;
+            try
+            {
+                matchId = Int32.Parse(Id);
+            }
+            catch
+            {
+                return "Please select a valid match";
+            }
+
+            Match matchInDb = _db.Matches.Find(matchId);
+            //add to aplicationusermatch table
+
+
+
+
+            ViewBag.Result = "Successfully joined " + matchInDb.MatchName;
+            return "successfully joined" + matchInDb.MatchName;
+        }
+
         public ActionResult Add()
         {
             return View();
@@ -35,6 +67,8 @@ namespace LoseItSharp.Controllers
             Model.MatchEnd = Model.MatchStart.AddDays(Model.NumberOfWeeks * 7);
             _db.Matches.Add(Model);
             _db.SaveChanges();
+
+            //TODO: create match weeks
 
             return RedirectToAction("Index");
         }
