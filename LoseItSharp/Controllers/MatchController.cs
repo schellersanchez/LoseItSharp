@@ -13,8 +13,9 @@ namespace LoseItSharp.Controllers
         private ApplicationDbContext _db = new ApplicationDbContext();
 
         // GET: Match
-        public ActionResult Index()
+        public ActionResult Index(string Message)
         {
+            ViewBag.Message = Message;
             List<Match> matchesInDb = _db.Matches.ToList();
             return View(matchesInDb);
         }
@@ -107,13 +108,35 @@ namespace LoseItSharp.Controllers
                     WeekNumber = i + 1
                 };
                 _db.MatchWeeks.Add(mw);
-                weekStart.AddDays(7);
-                weekEnd.AddDays(7);
+                weekStart = weekStart.AddDays(7);
+                weekEnd = weekEnd.AddDays(7);
             }
-
             _db.SaveChanges();
 
             return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public ActionResult Details(int Id)
+        {
+            Match matchInDb = _db.Matches.Include("MatchWeeks").Include("Participants").FirstOrDefault(m => m.Id == Id);
+            if(matchInDb == null)
+            {
+                return RedirectToAction("Index", "Match", new { @message = "Requested match not found" });
+            }
+
+            // Load users and associated check ins
+            foreach(Participant participant in matchInDb.Participants)
+            {
+                ApplicationUser user = _db.Users.Find(participant.ApplicationUserId);
+                user.CheckIns = _db.CheckIns.Where(c => c.ApplicationUserId == user.Id)
+                    .Where(c => c.MatchWeek.MatchId == matchInDb.Id)
+                    .ToList();
+                participant.ApplicationUser = user;
+            }
+
+
+            return View(matchInDb);
         }
 
     }

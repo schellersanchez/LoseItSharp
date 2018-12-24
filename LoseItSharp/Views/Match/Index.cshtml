@@ -7,7 +7,7 @@
 
 <h2>Index</h2>
 <div class="row">
-    <div id="resultMessage" class="alert-primary" ></div>
+    <div id="resultMessage" class="alert-warning" >@ViewBag.Message</div>
 </div>
 <table class="table table-hover">
     <thead class="thead-dark">
@@ -22,22 +22,15 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.MatchName</td>
-                <td>@item.MatchStart</td>
-                <td>@item.MatchEnd</td>
+                <td>@Html.ActionLink(@item.MatchName,"Details", "Match", new { @Id = @item.Id }, new { @class = "" })</td>
+                <td>@item.MatchStart.ToShortDateString()</td>
+                <td>@item.MatchEnd.ToShortDateString()</td>
                 <td><button class="btn btn-outline-primary btnJoin" data-matchId=@item.Id>Join</button></td>
             </tr>
         }
     </tbody>
 </table>
 
-
-@foreach (var item in Model)
-{
-    <li>
-        @item.MatchName
-    </li>
-}
 
 @section Scripts{
     <script>

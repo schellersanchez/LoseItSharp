@@ -1,0 +1,38 @@
+﻿@model LoseItSharp.Models.Match
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+<h3>Participants</h3>
+<table class="tableParticipants table table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <td>Name</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model.Participants)
+        {
+            <tr>
+                <td>@item.ApplicationUser.UserName</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@**All weeks and all users**@
+<table class="tableAllWeeks table table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            @foreach(var item in Model.MatchWeeks)
+            {
+                <th>@item.StartDate.ToShortDateString() to @item.EndDate.ToShortDateString()</th>
+            }
+        </tr>
+    </thead>
+
+</table>
