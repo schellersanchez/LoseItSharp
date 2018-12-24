@@ -3,10 +3,11 @@ namespace LoseItSharp.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class SeedDefaultUsers : DbMigration
+    public partial class InitialSeed : DbMigration
     {
         public override void Up()
         {
+
             //Insert Administrator Role
             Sql(@"
 INSERT INTO [dbo].[AspNetRoles] ([Id], [Name]) VALUES (N'a4ac5b9f-620a-42c1-b6e5-b0c6ca41ae4e', N'Administrator')");
@@ -21,7 +22,6 @@ INSERT INTO [dbo].[AspNetUsers] ([Id], [Email], [EmailConfirmed], [PasswordHash]
             Sql(@"
 INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'03161012-0fe4-4eb8-a090-2ec9f9de82be', N'a4ac5b9f-620a-42c1-b6e5-b0c6ca41ae4e')
 ");
-
         }
         
         public override void Down()

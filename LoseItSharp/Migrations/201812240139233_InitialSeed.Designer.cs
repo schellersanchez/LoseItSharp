@@ -7,13 +7,13 @@ namespace LoseItSharp.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class AddedDbSet : IMigrationMetadata
+    public sealed partial class InitialSeed : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedDbSet));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialSeed));
         
         string IMigrationMetadata.Id
         {
-            get { return "201812230313479_AddedDbSet"; }
+            get { return "201812240139233_InitialSeed"; }
         }
         
         string IMigrationMetadata.Source

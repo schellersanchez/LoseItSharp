@@ -10,6 +10,7 @@ namespace LoseItSharp.Models
     public class Match
     {
         public int Id { get; set; }
+
         [Display(Name = "Start Date")]
         public DateTime MatchStart { get; set; }
 
@@ -25,8 +26,7 @@ namespace LoseItSharp.Models
         public string CreatedById { get; set; }
 
         // Relationships
-        public List<ApplicationUser> ApplicationUser { get; set; }
-        public List<CheckIn> CheckIns { get; set; }
+        public List<Participant> Participants { get; set; }
         public List<MatchWeek> MatchWeeks { get; set; }
     }
 }

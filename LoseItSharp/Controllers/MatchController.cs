@@ -22,7 +22,7 @@ namespace LoseItSharp.Controllers
         public string Join(string Id)
         {
             //TODO: join
-
+            ApplicationUser au = new ApplicationUser();
             //check if user is logged in
             if (!User.Identity.IsAuthenticated)
             {

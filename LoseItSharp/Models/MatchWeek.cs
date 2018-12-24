@@ -9,14 +9,14 @@ namespace LoseItSharp.Models
 {
     public class MatchWeek
     {
-        [Key]
         public int Id { get; set; }
-        public int MatchId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int WeekNumber { get; set; }
 
         // Relationships
+        public int MatchId { get; set; }
+        public Match Match { get; set; }
         public List<CheckIn> CheckIns { get; set; }
 
     }

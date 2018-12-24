@@ -196,25 +196,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201812230100422_Initial.cs" />
-    <Compile Include="Migrations\201812230100422_Initial.Designer.cs">
-      <DependentUpon>201812230100422_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201812240134081_InitialMigration.cs" />
+    <Compile Include="Migrations\201812240134081_InitialMigration.Designer.cs">
+      <DependentUpon>201812240134081_InitialMigration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201812230122356_SeedDefaultUsers.cs" />
-    <Compile Include="Migrations\201812230122356_SeedDefaultUsers.Designer.cs">
-      <DependentUpon>201812230122356_SeedDefaultUsers.cs</DependentUpon>
+    <Compile Include="Migrations\201812240136298_RemoveCheckInFromMatches.cs" />
+    <Compile Include="Migrations\201812240136298_RemoveCheckInFromMatches.Designer.cs">
+      <DependentUpon>201812240136298_RemoveCheckInFromMatches.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201812230311172_InitialTableMigration.cs" />
-    <Compile Include="Migrations\201812230311172_InitialTableMigration.Designer.cs">
-      <DependentUpon>201812230311172_InitialTableMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201812230313479_AddedDbSet.cs" />
-    <Compile Include="Migrations\201812230313479_AddedDbSet.Designer.cs">
-      <DependentUpon>201812230313479_AddedDbSet.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201812230333358_AddedAdditionalFieldsToMatch.cs" />
-    <Compile Include="Migrations\201812230333358_AddedAdditionalFieldsToMatch.Designer.cs">
-      <DependentUpon>201812230333358_AddedAdditionalFieldsToMatch.cs</DependentUpon>
+    <Compile Include="Migrations\201812240139233_InitialSeed.cs" />
+    <Compile Include="Migrations\201812240139233_InitialSeed.Designer.cs">
+      <DependentUpon>201812240139233_InitialSeed.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -224,6 +216,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Match.cs" />
     <Compile Include="Models\MatchWeek.cs" />
+    <Compile Include="Models\Participant.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -348,20 +341,14 @@
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201812230100422_Initial.resx">
-      <DependentUpon>201812230100422_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201812240134081_InitialMigration.resx">
+      <DependentUpon>201812240134081_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812230122356_SeedDefaultUsers.resx">
-      <DependentUpon>201812230122356_SeedDefaultUsers.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201812240136298_RemoveCheckInFromMatches.resx">
+      <DependentUpon>201812240136298_RemoveCheckInFromMatches.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812230311172_InitialTableMigration.resx">
-      <DependentUpon>201812230311172_InitialTableMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812230313479_AddedDbSet.resx">
-      <DependentUpon>201812230313479_AddedDbSet.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812230333358_AddedAdditionalFieldsToMatch.resx">
-      <DependentUpon>201812230333358_AddedAdditionalFieldsToMatch.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201812240139233_InitialSeed.resx">
+      <DependentUpon>201812240139233_InitialSeed.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

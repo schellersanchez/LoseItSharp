@@ -13,7 +13,7 @@ namespace LoseItSharp.Models
         public DbSet<CheckIn> CheckIns { get; set; }
         public DbSet<Match> Matches { get; set; }
         public DbSet<MatchWeek> MatchWeeks { get; set; }
-
+        public DbSet<Participant> Participants { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

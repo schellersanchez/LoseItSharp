@@ -9,14 +9,16 @@ namespace LoseItSharp.Models
 {
     public class CheckIn
     {
-        [Key]
         public int Id { get; set; }
-        public int? MatchId { get; set; }
-        public string ApplicationUserId { get; set; }
-        public int? MatchWeekId { get; set; }
-        public DateTime DateStamp { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime LastModifiedDate { get; set; }
+        public string CreatedById { get; set; }
         public float Weight { get; set; }
 
-
+        //Relationships
+        public string ApplicationUserId { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
+        public int? MatchWeekId { get; set; }
+        public MatchWeek MatchWeek { get; set; }
     }
 }
