@@ -5,24 +5,26 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
-<h3>Participants</h3>
-<table class="tableParticipants table table-hover">
-    <thead class="thead-dark">
-        <tr>
-            <td>Name</td>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var item in Model.Participants)
-        {
-            <tr>
-                <td>@item.ApplicationUser.UserName</td>
-            </tr>
-        }
-    </tbody>
+<h2>@Model.MatchName Details</h2>
+<table class="table table-bordered">
+    <tr>
+        <td>Number of participants</td>
+        <td>@Model.Participants.Count()</td>
+    </tr>
+    <tr>
+        <td>Number of weeks</td>
+        <td>@Model.NumberOfWeeks</td>
+    </tr>
+    <tr>
+        <td>Start Date</td>
+        <td>@Model.MatchStart.ToShortDateString()</td>
+    </tr>
+    <tr>
+        <td>End Date</td>
+        <td>@Model.MatchEnd.ToShortDateString()</td>
+    </tr>
 </table>
-
+<h3>Participants</h3>
 @**All weeks and all users**@
 <table class="tableAllWeeks table table-hover">
     <thead>
@@ -33,6 +35,19 @@
                 <th>@item.StartDate.ToShortDateString() to @item.EndDate.ToShortDateString()</th>
             }
         </tr>
+
     </thead>
+    <tbody>
+        @foreach(var item in Model.Participants)
+        {
+            <tr>
+                <td>@item.ApplicationUser.UserName</td>
+                @foreach(var checkin in item.ApplicationUser.CheckIns.OrderBy(c => c.CreatedDate))
+                {
+                    <td>@checkin.Weight</td>
+                }
+            </tr>
+        }
+    </tbody>
 
 </table>

@@ -43,7 +43,11 @@ namespace LoseItSharp.Controllers
             }
 
             Match matchInDb = _db.Matches.Find(matchId);
-            //add to aplicationusermatch table
+
+            //Add user and match to participant table
+
+            //Create the Check Ins
+
 
 
 
@@ -85,16 +89,6 @@ namespace LoseItSharp.Controllers
             _db.Matches.Add(Model);
             _db.SaveChanges();
 
-            //Add current user to match
-            Participant participant = new Participant()
-            {
-                Match = newMatch,
-                ApplicationUser = userInDb,
-                IsMatchAdmin = true,
-            };
-            _db.Participants.Add(participant);
-            _db.SaveChanges();
-
             //Create MatchWeeks
             DateTime weekStart = Model.MatchStart;
             DateTime weekEnd = weekStart.AddDays(7).AddMinutes(-1); //11:59pm
@@ -112,6 +106,9 @@ namespace LoseItSharp.Controllers
                 weekEnd = weekEnd.AddDays(7);
             }
             _db.SaveChanges();
+
+            //Add current user to match
+            JoinMatch(userInDb, newMatch, true);
 
             return RedirectToAction("Index");
         }
@@ -137,6 +134,35 @@ namespace LoseItSharp.Controllers
 
 
             return View(matchInDb);
+        }
+
+        private void JoinMatch(ApplicationUser user, Match Match, bool IsMatchAdmin)
+        {
+            //TODO: 
+
+            //Add to Participant table
+            Participant participant = new Participant()
+            {
+                Match = Match,
+                ApplicationUser = user,
+                IsMatchAdmin = true,
+            };
+            _db.Participants.Add(participant);
+            _db.SaveChanges();
+
+            //Create check in records
+            foreach(MatchWeek mw in Match.MatchWeeks)
+            {
+                CheckIn newCheckIn = new CheckIn()
+                {
+                    MatchWeek = mw,
+                    ApplicationUser = user,
+                    CreatedDate = DateTime.Now,
+                    LastModifiedDate = DateTime.Now
+                };
+                _db.CheckIns.Add(newCheckIn);
+                _db.SaveChanges();
+            }
         }
 
     }
