@@ -55,7 +55,7 @@ namespace LoseItSharp.Controllers
             CheckIn checkInInDb = _db.CheckIns.Find(Model.Id);
             checkInInDb.LastModifiedDate = DateTime.Now;
             checkInInDb.Weight = Model.Weight;
-            _db.SaveChanges();
+            _db.SaveChanges(); 
 
             int matchId = _db.MatchWeeks.Find(Model.MatchWeekId).MatchId;
             return RedirectToAction("Details", "Match", new { @id = matchId });
