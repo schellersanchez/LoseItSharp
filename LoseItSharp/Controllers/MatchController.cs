@@ -23,8 +23,6 @@ namespace LoseItSharp.Controllers
         [HttpPost]
         public string Join(string Id)
         {
-            //TODO: join
-            ApplicationUser au = new ApplicationUser();
             //check if user is logged in
             if (!User.Identity.IsAuthenticated)
             {
@@ -32,6 +30,7 @@ namespace LoseItSharp.Controllers
                 return "Please Log in before joining";
             }
 
+            //Validate matchId
             int matchId = 0;
             try
             {
@@ -42,18 +41,26 @@ namespace LoseItSharp.Controllers
                 return "Please select a valid match";
             }
 
-            Match matchInDb = _db.Matches.Find(matchId);
+            //Validate Match
+            Match matchInDb = _db.Matches.Include("Participants").FirstOrDefault(m => m.Id == matchId);
+            if(matchInDb == null)
+            {
+                return "Match not found";
+            }
 
-            //Add user and match to participant table
+            //Validate if user already joined match
+            string userId = User.Identity.GetUserId();
+            if (matchInDb.Participants.FirstOrDefault(p => p.ApplicationUserId == userId) != null)
+            {
+                return "You've already joined this match";
+            }
 
-            //Create the Check Ins
-
-
-
-
+            //Join match
+            ApplicationUser userInDb = _db.Users.Find(userId);
+            JoinMatch(userInDb, matchInDb, false);
 
             ViewBag.Result = "Successfully joined " + matchInDb.MatchName;
-            return "successfully joined" + matchInDb.MatchName;
+            return "successfully joined" + matchInDb.MatchName; ;
         }
 
         public ActionResult Add()
@@ -138,8 +145,6 @@ namespace LoseItSharp.Controllers
 
         private void JoinMatch(ApplicationUser user, Match Match, bool IsMatchAdmin)
         {
-            //TODO: 
-
             //Add to Participant table
             Participant participant = new Participant()
             {
@@ -148,21 +153,22 @@ namespace LoseItSharp.Controllers
                 IsMatchAdmin = true,
             };
             _db.Participants.Add(participant);
-            _db.SaveChanges();
 
             //Create check in records
-            foreach(MatchWeek mw in Match.MatchWeeks)
+            Match.MatchWeeks = _db.MatchWeeks.Where(m => m.MatchId == Match.Id).ToList();
+            foreach(MatchWeek week in Match.MatchWeeks)
             {
                 CheckIn newCheckIn = new CheckIn()
                 {
-                    MatchWeek = mw,
+                    MatchWeek = week,
                     ApplicationUser = user,
                     CreatedDate = DateTime.Now,
                     LastModifiedDate = DateTime.Now
                 };
                 _db.CheckIns.Add(newCheckIn);
-                _db.SaveChanges();
             }
+
+            _db.SaveChanges();
         }
 
     }

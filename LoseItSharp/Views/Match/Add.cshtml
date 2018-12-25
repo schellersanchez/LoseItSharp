@@ -11,7 +11,8 @@
 {
     @Html.AntiForgeryToken()
     <div class="">
-        <div class="form-group">
+        <div class="form-group text-danger">
+            @(ViewBag.Message)
             @Html.ValidationSummary(false, "", new { @class = "text-danger" })
         </div>
         <div class="form-group">
