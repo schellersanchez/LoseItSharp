@@ -25,12 +25,13 @@
     </tr>
 </table>
 <h3>Participants</h3>
+
 @**All weeks and all users**@
 <table class="tableAllWeeks table table-hover">
     <thead>
         <tr>
             <th>Name</th>
-            @foreach(var item in Model.MatchWeeks)
+            @foreach (var item in Model.MatchWeeks)
             {
                 <th>@item.StartDate.ToShortDateString() to @item.EndDate.ToShortDateString()</th>
             }
@@ -44,7 +45,9 @@
                 <td>@item.ApplicationUser.UserName</td>
                 @foreach(var checkin in item.ApplicationUser.CheckIns.OrderBy(c => c.CreatedDate))
                 {
-                    <td>@checkin.Weight</td>
+                    <td>
+                        @Html.ActionLink(checkin.Weight.ToString(), "Update", "CheckIn", new { @Id = checkin.Id }, new { @class = "" })
+                    </td>
                 }
             </tr>
         }
