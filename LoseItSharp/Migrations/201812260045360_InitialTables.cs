@@ -3,7 +3,7 @@ namespace LoseItSharp.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialMigration : DbMigration
+    public partial class InitialTables : DbMigration
     {
         public override void Up()
         {
@@ -18,15 +18,12 @@ namespace LoseItSharp.Migrations
                         Weight = c.Single(nullable: false),
                         ApplicationUserId = c.String(maxLength: 128),
                         MatchWeekId = c.Int(),
-                        Match_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.AspNetUsers", t => t.ApplicationUserId)
-                .ForeignKey("dbo.Matches", t => t.Match_Id)
                 .ForeignKey("dbo.MatchWeeks", t => t.MatchWeekId)
                 .Index(t => t.ApplicationUserId)
-                .Index(t => t.MatchWeekId)
-                .Index(t => t.Match_Id);
+                .Index(t => t.MatchWeekId);
             
             CreateTable(
                 "dbo.AspNetUsers",
@@ -147,7 +144,6 @@ namespace LoseItSharp.Migrations
             DropForeignKey("dbo.Participants", "MatchId", "dbo.Matches");
             DropForeignKey("dbo.MatchWeeks", "MatchId", "dbo.Matches");
             DropForeignKey("dbo.CheckIns", "MatchWeekId", "dbo.MatchWeeks");
-            DropForeignKey("dbo.CheckIns", "Match_Id", "dbo.Matches");
             DropForeignKey("dbo.Participants", "ApplicationUserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
@@ -161,7 +157,6 @@ namespace LoseItSharp.Migrations
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
-            DropIndex("dbo.CheckIns", new[] { "Match_Id" });
             DropIndex("dbo.CheckIns", new[] { "MatchWeekId" });
             DropIndex("dbo.CheckIns", new[] { "ApplicationUserId" });
             DropTable("dbo.AspNetRoles");

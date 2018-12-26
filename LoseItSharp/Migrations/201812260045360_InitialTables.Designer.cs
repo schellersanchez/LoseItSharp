@@ -7,13 +7,13 @@ namespace LoseItSharp.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class RemoveCheckInFromMatches : IMigrationMetadata
+    public sealed partial class InitialTables : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(RemoveCheckInFromMatches));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialTables));
         
         string IMigrationMetadata.Id
         {
-            get { return "201812240136298_RemoveCheckInFromMatches"; }
+            get { return "201812260045360_InitialTables"; }
         }
         
         string IMigrationMetadata.Source

@@ -197,17 +197,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201812240134081_InitialMigration.cs" />
-    <Compile Include="Migrations\201812240134081_InitialMigration.Designer.cs">
-      <DependentUpon>201812240134081_InitialMigration.cs</DependentUpon>
+    <Compile Include="Migrations\201812260045360_InitialTables.cs" />
+    <Compile Include="Migrations\201812260045360_InitialTables.Designer.cs">
+      <DependentUpon>201812260045360_InitialTables.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201812240136298_RemoveCheckInFromMatches.cs" />
-    <Compile Include="Migrations\201812240136298_RemoveCheckInFromMatches.Designer.cs">
-      <DependentUpon>201812240136298_RemoveCheckInFromMatches.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201812240139233_InitialSeed.cs" />
-    <Compile Include="Migrations\201812240139233_InitialSeed.Designer.cs">
-      <DependentUpon>201812240139233_InitialSeed.cs</DependentUpon>
+    <Compile Include="Migrations\201812260046063_InitialSeed.cs" />
+    <Compile Include="Migrations\201812260046063_InitialSeed.Designer.cs">
+      <DependentUpon>201812260046063_InitialSeed.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -344,14 +340,11 @@
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201812240134081_InitialMigration.resx">
-      <DependentUpon>201812240134081_InitialMigration.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201812260045360_InitialTables.resx">
+      <DependentUpon>201812260045360_InitialTables.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812240136298_RemoveCheckInFromMatches.resx">
-      <DependentUpon>201812240136298_RemoveCheckInFromMatches.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201812240139233_InitialSeed.resx">
-      <DependentUpon>201812240139233_InitialSeed.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201812260046063_InitialSeed.resx">
+      <DependentUpon>201812260046063_InitialSeed.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
