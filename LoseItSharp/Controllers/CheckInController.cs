@@ -5,12 +5,24 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using LoseItSharp.Services;
 
 namespace LoseItSharp.Controllers
 {
     public class CheckInController : Controller
     {
-        private ApplicationDbContext _db = new ApplicationDbContext();
+        private Repository _repsitory;
+
+        public CheckInController()
+        {
+            _repsitory = new Repository();
+        }
+
+        public CheckInController(IDataAccess dataAccess)
+        {
+            _repsitory = new Repository(dataAccess);
+        }
+
         // GET: CheckIn
         public ActionResult Index()
         {
@@ -20,23 +32,17 @@ namespace LoseItSharp.Controllers
         [HttpGet]
         public ActionResult Update(int Id)
         {
-            CheckIn checkInInDb = _db.CheckIns.Include("Matchweek").FirstOrDefault(c=>c.Id == Id);
-            if(checkInInDb == null)
+            var checkIn = _repsitory.GetCheckIn(Id);
+            if (checkIn == null)
             {
                 return RedirectToAction("Index", "Match", new { @Message = "Match not found" });
             }
-            // Load match data
-            checkInInDb.MatchWeek.Match = _db.Matches.Find(checkInInDb.MatchWeek.MatchId);
-           
-            return View(checkInInDb);
+            return View(checkIn);
         }
 
         [HttpPost]
         public ActionResult Update(CheckIn Model)
         {
-            //Load relationships
-            Model.MatchWeek = _db.MatchWeeks.Include("Match").FirstOrDefault(m=>m.Id == Model.MatchWeekId);
-
             //Validate model
             if (!ModelState.IsValid)
             {
@@ -52,12 +58,11 @@ namespace LoseItSharp.Controllers
             }
 
             //Update check in
-            CheckIn checkInInDb = _db.CheckIns.Find(Model.Id);
-            checkInInDb.LastModifiedDate = DateTime.Now;
-            checkInInDb.Weight = Model.Weight;
-            _db.SaveChanges(); 
+            _repsitory.UpdateCheckIn(Model.Id, Model.Weight);
 
-            int matchId = _db.MatchWeeks.Find(Model.MatchWeekId).MatchId;
+            var matchWeek = _repsitory.GetMatchWeek(Model.MatchWeekId);
+            int matchId = matchWeek.MatchId;
+            //int matchId = _db.MatchWeeks.Find(Model.MatchWeekId).MatchId;
             return RedirectToAction("Details", "Match", new { @id = matchId });
         }
 

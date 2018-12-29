@@ -5,21 +5,36 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using LoseItSharp.Services;
 
 namespace LoseItSharp.Controllers
 {
     public class MatchController : Controller
     {
-        private ApplicationDbContext _db = new ApplicationDbContext();
+        private Repository _repository;
+
+        public MatchController()
+        {
+            _repository = new Repository();
+        }
+
+        public MatchController(IDataAccess dataAccess)
+        {
+            _repository = new Repository(dataAccess);
+        }
 
         // GET: Match
         public ActionResult Index(string Message)
         {
             ViewBag.Message = Message;
-            List<Match> matchesInDb = _db.Matches.ToList();
-            return View(matchesInDb);
+            var matches = _repository.GetAllMatches();
+            return View(matches);
         }
-
+        /// <summary>
+        /// Join a match through an ajax call
+        /// </summary>
+        /// <param name="Id">Match Id</param>
+        /// <returns></returns>
         [HttpPost]
         public string Join(string Id)
         {
@@ -42,22 +57,20 @@ namespace LoseItSharp.Controllers
             }
 
             //Validate Match
-            Match matchInDb = _db.Matches.Include("Participants").FirstOrDefault(m => m.Id == matchId);
+            var matchInDb = _repository.GetMatch(matchId);
             if(matchInDb == null)
             {
                 return "Match not found";
             }
 
             //Validate if user already joined match
-            string userId = User.Identity.GetUserId();
-            if (matchInDb.Participants.FirstOrDefault(p => p.ApplicationUserId == userId) != null)
+            if (_repository.IsUserInMatch(User.Identity.GetUserId(), matchId))
             {
                 return "You've already joined this match";
             }
 
             //Join match
-            ApplicationUser userInDb = _db.Users.Find(userId);
-            JoinMatch(userInDb, matchInDb, false);
+            _repository.JoinMatch(User.Identity.GetUserId(), matchId, false);
 
             ViewBag.Result = "Successfully joined " + matchInDb.MatchName;
             return "successfully joined" + matchInDb.MatchName; ;
@@ -84,91 +97,37 @@ namespace LoseItSharp.Controllers
             {
                 return View(Model);
             }
-            
-            //Get current user
-            string currentUserId = User.Identity.GetUserId();
-            ApplicationUser userInDb = _db.Users.Find(currentUserId);
 
-            //Create new Match
-            Match newMatch = Model;
-            newMatch.CreatedById = currentUserId;
-            newMatch.MatchEnd = newMatch.MatchStart.AddDays(newMatch.NumberOfWeeks * 7).AddMinutes(-1); //11:59pm
-            _db.Matches.Add(Model);
-            _db.SaveChanges();
-
-            //Create MatchWeeks
-            DateTime weekStart = Model.MatchStart;
-            DateTime weekEnd = weekStart.AddDays(7).AddMinutes(-1); //11:59pm
-            for(int i = 0; i < Model.NumberOfWeeks; i++)
-            {
-                MatchWeek mw = new MatchWeek()
-                {
-                    Match = newMatch,
-                    StartDate = weekStart,
-                    EndDate = weekEnd,
-                    WeekNumber = i + 1
-                };
-                _db.MatchWeeks.Add(mw);
-                weekStart = weekStart.AddDays(7);
-                weekEnd = weekEnd.AddDays(7);
-            }
-            _db.SaveChanges();
-
-            //Add current user to match
-            JoinMatch(userInDb, newMatch, true);
+            //Create match
+            _repository.CreateMatch(Model.MatchStart, Model.NumberOfWeeks, Model.MatchName, User.Identity.GetUserId());
 
             return RedirectToAction("Index");
         }
 
         [HttpGet]
-        public ActionResult Details(int Id)
+        public ActionResult Details(int id)
         {
-            Match matchInDb = _db.Matches.Include("MatchWeeks").Include("Participants").FirstOrDefault(m => m.Id == Id);
-            if(matchInDb == null)
+            var model = _repository.GetMatch(id);
+            if (model == null)
             {
                 return RedirectToAction("Index", "Match", new { @message = "Requested match not found" });
             }
 
-            // Load users and associated check ins
-            foreach(Participant participant in matchInDb.Participants)
+            //load participants
+            model.Participants = _repository.GetAllParticipantsInMatch(id);
+            foreach(var participant in model.Participants)
             {
-                ApplicationUser user = _db.Users.Find(participant.ApplicationUserId);
-                user.CheckIns = _db.CheckIns.Where(c => c.ApplicationUserId == user.Id)
-                    .Where(c => c.MatchWeek.MatchId == matchInDb.Id)
-                    .ToList();
-                participant.ApplicationUser = user;
+                participant.ApplicationUser = _repository.GetUser(participant.ApplicationUserId);
+                participant.ApplicationUser.CheckIns = _repository.GetCheckInsForUser(participant.ApplicationUserId, id);
+                //participant.Match = _repository.GetMatch(participant.MatchId);
             }
 
+            //load matchweeks
+            model.MatchWeeks = _repository.GetAllMatchWeeksInMatch(id);
+            //                @foreach(var checkin in item.ApplicationUser.CheckIns.OrderBy(c => c.CreatedDate))
 
-            return View(matchInDb);
-        }
 
-        private void JoinMatch(ApplicationUser user, Match Match, bool IsMatchAdmin)
-        {
-            //Add to Participant table
-            Participant participant = new Participant()
-            {
-                Match = Match,
-                ApplicationUser = user,
-                IsMatchAdmin = true,
-            };
-            _db.Participants.Add(participant);
-
-            //Create check in records
-            Match.MatchWeeks = _db.MatchWeeks.Where(m => m.MatchId == Match.Id).ToList();
-            foreach(MatchWeek week in Match.MatchWeeks)
-            {
-                CheckIn newCheckIn = new CheckIn()
-                {
-                    MatchWeek = week,
-                    ApplicationUser = user,
-                    CreatedDate = DateTime.Now,
-                    LastModifiedDate = DateTime.Now
-                };
-                _db.CheckIns.Add(newCheckIn);
-            }
-
-            _db.SaveChanges();
+            return View(model);
         }
 
     }
