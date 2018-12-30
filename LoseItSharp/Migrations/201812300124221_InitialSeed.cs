@@ -90,6 +90,8 @@ INSERT INTO [dbo].[CheckIns] ([Id], [CreatedDate], [LastModifiedDate], [CreatedB
 SET IDENTITY_INSERT [dbo].[CheckIns] OFF
 
 ");
+
+
         }
         
         public override void Down()

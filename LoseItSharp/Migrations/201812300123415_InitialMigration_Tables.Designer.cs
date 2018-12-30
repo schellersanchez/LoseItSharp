@@ -7,13 +7,13 @@ namespace LoseItSharp.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class InitialTables : IMigrationMetadata
+    public sealed partial class InitialMigration_Tables : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialTables));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialMigration_Tables));
         
         string IMigrationMetadata.Id
         {
-            get { return "201812260045360_InitialTables"; }
+            get { return "201812300123415_InitialMigration_Tables"; }
         }
         
         string IMigrationMetadata.Source

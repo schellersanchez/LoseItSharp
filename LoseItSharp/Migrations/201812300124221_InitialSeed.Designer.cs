@@ -13,7 +13,7 @@ namespace LoseItSharp.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201812260046063_InitialSeed"; }
+            get { return "201812300124221_InitialSeed"; }
         }
         
         string IMigrationMetadata.Source

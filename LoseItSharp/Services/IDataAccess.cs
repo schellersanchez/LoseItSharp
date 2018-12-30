@@ -21,7 +21,8 @@ namespace LoseItSharp.Services
         List<Participant> GetAllParticipantsInMatch(int matchId);
         void AddCheckIn(string userId, int matchWeekId);
         void AddParticipant(string userId, int matchId, bool isMatchAdmins);
-        void AddMatch(string matchName, DateTime matchStart, DateTime matchEnd, int numberOfWeeks, string createdById);
+        Match AddMatch(string matchName, DateTime matchStart, DateTime matchEnd, int numberOfWeeks, string createdById);
+        void AddMatchWeek(DateTime startDate, DateTime endDate, int weekNumber, int matchId);
         void UpdateCheckIn(int checkInId, DateTime lastModifiedDate, float weight);
     }
 }

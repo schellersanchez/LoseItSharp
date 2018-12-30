@@ -3,7 +3,7 @@ namespace LoseItSharp.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class InitialTables : DbMigration
+    public partial class InitialMigration_Tables : DbMigration
     {
         public override void Up()
         {
