@@ -10,6 +10,22 @@ namespace LoseItSharp.Services
     {
         private ApplicationDbContext _db = new ApplicationDbContext();
 
+        public void AddCheckIn(string userId, int matchWeekId)
+        {
+            var checkIn = new CheckIn()
+            {
+                ApplicationUserId = userId,
+                MatchWeekId = matchWeekId,
+                CreatedById = userId,
+                CreatedDate = DateTime.Now,
+                LastModifiedDate = DateTime.Now,
+                Weight = 0
+            };
+
+            _db.CheckIns.Add(checkIn);
+            _db.SaveChanges();
+        }
+
         public void AddMatch(string matchName, DateTime matchStart, DateTime matchEnd, int numberOfWeeks, string createdById)
         {
             var match = new Match()
@@ -67,11 +83,6 @@ namespace LoseItSharp.Services
         public List<CheckIn> GetCheckInsForUser(string userId)
         {
             return _db.CheckIns.Where(c => c.ApplicationUserId == userId).ToList();
-        }
-
-        public List<CheckIn> GetCheckInsForUser(string userId, int matchId)
-        {
-            throw new NotImplementedException();
         }
 
         public Match GetMatch(int matchId)

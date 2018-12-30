@@ -13,13 +13,13 @@ namespace LoseItSharp.Services
         CheckIn GetCheckIn(int checkInId);
         List<CheckIn> GetAllCheckInsForWeek(int matchWeekId);
         List<CheckIn> GetCheckInsForUser(string userId);
-        List<CheckIn> GetCheckInsForUser(string userId, int matchId);
         Match GetMatch(int matchId);
         List<Match> GetAllMatches();
         MatchWeek GetMatchWeek(int matchWeekId);
         List<MatchWeek> GetAllMatchWeeksInMatch(int matchId);
         Participant GetParticipant(int participantId);
         List<Participant> GetAllParticipantsInMatch(int matchId);
+        void AddCheckIn(string userId, int matchWeekId);
         void AddParticipant(string userId, int matchId, bool isMatchAdmins);
         void AddMatch(string matchName, DateTime matchStart, DateTime matchEnd, int numberOfWeeks, string createdById);
         void UpdateCheckIn(int checkInId, DateTime lastModifiedDate, float weight);

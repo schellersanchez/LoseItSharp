@@ -49,7 +49,8 @@ namespace LoseItSharp.Services
         public bool IsUserInMatch(string userId, int matchId)
         {
             var match = _dataAccess.GetMatch(matchId);
-            var participant = match.Participants.Where(p => p.MatchId == matchId).Where(p => p.ApplicationUserId == userId);
+            match.Participants = GetAllParticipantsInMatch(match.Id);
+            var participant = match.Participants.Where(p => p.ApplicationUserId == userId).FirstOrDefault();
 
             return participant == null ? false : true;
         }
@@ -57,6 +58,16 @@ namespace LoseItSharp.Services
         public void JoinMatch(string userId, int matchId, bool isAdmin)
         {
             _dataAccess.AddParticipant(userId, matchId, isAdmin);
+            var matchWeeks = GetAllMatchWeeksInMatch(matchId);
+            foreach(var matchWeek in matchWeeks)
+            {
+                CreateCheckIn(userId, matchWeek.Id);
+            }
+        }
+
+        public void CreateCheckIn(string userId, int matchWeekId)
+        {
+            _dataAccess.AddCheckIn(userId, matchWeekId);
         }
 
         public void CreateMatch(DateTime matchStart, int numberOfWeeks, string matchName, string userId)
