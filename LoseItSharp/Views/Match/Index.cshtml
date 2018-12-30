@@ -1,13 +1,14 @@
-﻿@model List<LoseItSharp.Models.Match>
+﻿@using Microsoft.AspNet.Identity
+@model List<LoseItSharp.Models.Match>
 
 @{
     ViewBag.Title = "Matches";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Matches</h2>
+<h2>Available Matches</h2>
 <div class="row">
-    <div id="resultMessage" class="alert-warning" >@ViewBag.Message</div>
+    <div id="resultMessage" class="alert-warning">@ViewBag.Message</div>
 </div>
 <table class="table table-hover">
     <thead class="thead-dark">
@@ -15,17 +16,26 @@
             <td>Match Name</td>
             <td>Start Date</td>
             <td>End Date</td>
-            <td></td>
+            <td>Join</td>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var match in Model)
         {
+            var hideBtn = false;
             <tr>
-                <td>@Html.ActionLink(@item.MatchName,"Details", "Match", new { @Id = @item.Id }, new { @class = "" })</td>
-                <td>@item.MatchStart.ToShortDateString()</td>
-                <td>@item.MatchEnd.ToShortDateString()</td>
-                <td><button class="btn btn-outline-primary btnJoin" data-matchId=@item.Id>Join</button></td>
+                <td>@Html.ActionLink(match.MatchName, "Details", "Match", new { @Id = match.Id }, new { @class = "" })</td>
+                <td>@match.MatchStart.ToShortDateString()</td>
+                <td>@match.MatchEnd.ToShortDateString()</td>
+
+                @foreach (var participant in match.Participants)
+                {
+                    if (participant.ApplicationUserId == User.Identity.GetUserId())
+                    {
+                        hideBtn = true;
+                    }
+                }
+                <td><button class="btn btn-outline-primary btnJoin" data-matchId=@match.Id hidden=@hideBtn>Join</button></td>
             </tr>
         }
     </tbody>
@@ -34,7 +44,8 @@
 
 @section Scripts{
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
+
             $('.btnJoin').click(function () {
                 var button = $(this);
                 $.ajax({
@@ -47,9 +58,7 @@
                     }
                 });
             });
-
-
         });
 
     </script>
-    }
+}

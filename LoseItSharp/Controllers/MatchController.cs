@@ -28,6 +28,10 @@ namespace LoseItSharp.Controllers
         {
             ViewBag.Message = Message;
             var matches = _repository.GetAllMatches();
+            foreach(var match in matches)
+            {
+                match.Participants = _repository.GetAllParticipantsInMatch(match.Id);
+            }
             return View(matches);
         }
         /// <summary>
