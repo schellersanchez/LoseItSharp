@@ -35,6 +35,10 @@
     @Html.HiddenFor(m => m.Id)
     @Html.HiddenFor(m => m.MatchWeekId)
     @Html.HiddenFor(m => m.ApplicationUserId)
+    @Html.HiddenFor(m=>m.MatchWeek.Match.MatchName)
+    @Html.HiddenFor(m => m.MatchWeek.WeekNumber)
+    @Html.HiddenFor(m => m.MatchWeek.StartDate)
+    @Html.HiddenFor(m => m.MatchWeek.EndDate)
 
     <div class="">
         <div class="form-group">

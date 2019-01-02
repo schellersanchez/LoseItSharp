@@ -6,11 +6,11 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Available Matches</h2>
+<h2>All Matches</h2>
 <div class="row">
     <div id="resultMessage" class="alert-warning">@ViewBag.Message</div>
 </div>
-<table class="table  table-borderless table-bordered table-hover" id="tableMatches">
+<table class="table  table-borderless table-bordered table-hover dt-responsive" id="tableMatches" width="100%">
     <thead class="">
         <tr>
             <td>Match Name</td>
@@ -43,11 +43,18 @@
 
 
 @section Scripts{
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/plug-ins/1.10.12/sorting/datetime-moment.js"></script>
+    
+
     <script>
         $(document).ready(function () {
+            $.fn.dataTable.moment('M/D/YYYY');
 
-            $('#tableMatches').DataTable();
+            $('#tableMatches').DataTable({
+                "order": [[1, "asc"]]
+            });
 
             $('.btnJoin').click(function () {
                 var button = $(this);

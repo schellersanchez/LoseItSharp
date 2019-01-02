@@ -43,6 +43,7 @@ namespace LoseItSharp.Controllers
         [HttpPost]
         public ActionResult Update(CheckIn Model)
         {
+
             //Validate model
             if (!ModelState.IsValid)
             {
