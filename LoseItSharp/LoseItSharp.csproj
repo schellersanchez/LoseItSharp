@@ -200,6 +200,10 @@
     <Compile Include="Migrations\201812300124221_InitialSeed.Designer.cs">
       <DependentUpon>201812300124221_InitialSeed.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901040532012_madeWeekNameRequired.cs" />
+    <Compile Include="Migrations\201901040532012_madeWeekNameRequired.Designer.cs">
+      <DependentUpon>201901040532012_madeWeekNameRequired.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\IDataAccess.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MatchController.cs" />
@@ -329,6 +333,7 @@
     <Content Include="Views\Match\Index.cshtml" />
     <Content Include="Views\Match\Details.cshtml" />
     <Content Include="Views\CheckIn\Update.cshtml" />
+    <Content Include="Views\Home\PageNotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -349,6 +354,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201812300124221_InitialSeed.resx">
       <DependentUpon>201812300124221_InitialSeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901040532012_madeWeekNameRequired.resx">
+      <DependentUpon>201901040532012_madeWeekNameRequired.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

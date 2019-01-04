@@ -20,6 +20,7 @@ namespace LoseItSharp.Models
         [Display(Name ="Number of Weeks")]
         public int NumberOfWeeks { get; set; }
 
+        [Required]
         [Display(Name ="Match Name")]
         public string MatchName { get; set; }
 

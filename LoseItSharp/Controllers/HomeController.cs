@@ -26,5 +26,11 @@ namespace LoseItSharp.Controllers
 
             return View();
         }
+
+        public ActionResult PageNotFound(string message)
+        {
+            ViewBag.Message = message;
+            return View();
+        }
     }
 }

@@ -13,7 +13,7 @@
     <div class="">
         <div class="form-group text-danger">
             @(ViewBag.Message)
-            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            @Html.ValidationSummary("")
         </div>
         <div class="form-group">
             @Html.LabelFor(m => m.MatchName, new { @class = "" })

@@ -30,9 +30,16 @@ namespace LoseItSharp.Controllers
         }
 
         [HttpGet]
-        public ActionResult Update(int Id)
+        public ActionResult Update(int? id)
         {
-            var checkIn = _repsitory.GetCheckIn(Id);
+            if(id == null)
+            {
+                return RedirectToAction("Index", "Match", new { @Message = "Match not found.  Check in ID missing." });
+            }
+
+            var checkInId = Int32.Parse(id.ToString());
+            var checkIn = _repsitory.GetCheckIn(checkInId);
+
             if (checkIn == null)
             {
                 return RedirectToAction("Index", "Match", new { @Message = "Match not found" });

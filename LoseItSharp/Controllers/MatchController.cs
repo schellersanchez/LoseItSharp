@@ -77,7 +77,7 @@ namespace LoseItSharp.Controllers
             _repository.JoinMatch(User.Identity.GetUserId(), matchId, false);
 
             ViewBag.Result = "Successfully joined " + matchInDb.MatchName;
-            return "successfully joined" + matchInDb.MatchName; ;
+            return "Successfully joined" + matchInDb.MatchName; ;
         }
 
         public ActionResult Add()
@@ -93,7 +93,7 @@ namespace LoseItSharp.Controllers
             if (!User.Identity.IsAuthenticated)
             {
                 ViewBag.Message = "Please log in to create";
-                return View(Model);
+                return RedirectToAction("Login", "Account", new { @returnUrl = "/match/add" });
             }
 
             //Validate form
@@ -108,26 +108,34 @@ namespace LoseItSharp.Controllers
             return RedirectToAction("Index");
         }
 
+
         [HttpGet]
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
-            var model = _repository.GetMatch(id);
+            if(id == null)
+            {
+                return RedirectToAction("Index", "Match", new { @message = "Match not found.  Match Id missing." });
+            }
+
+            var matchId = Int32.Parse(id.ToString());
+
+            var model = _repository.GetMatch(matchId);
             if (model == null)
             {
-                return RedirectToAction("Index", "Match", new { @message = "Requested match not found" });
+                return RedirectToAction("Index", "Match", new { @message = "Match not found." });
             }
 
             //load participants
-            model.Participants = _repository.GetAllParticipantsInMatch(id);
+            model.Participants = _repository.GetAllParticipantsInMatch(matchId);
             foreach(var participant in model.Participants)
             {
                 participant.ApplicationUser = _repository.GetUser(participant.ApplicationUserId);
-                participant.ApplicationUser.CheckIns = _repository.GetCheckInsForUser(participant.ApplicationUserId, id);
+                participant.ApplicationUser.CheckIns = _repository.GetCheckInsForUser(participant.ApplicationUserId, matchId);
                 //participant.Match = _repository.GetMatch(participant.MatchId);
             }
 
             //load matchweeks
-            model.MatchWeeks = _repository.GetAllMatchWeeksInMatch(id);
+            model.MatchWeeks = _repository.GetAllMatchWeeksInMatch(matchId);
             //                @foreach(var checkin in item.ApplicationUser.CheckIns.OrderBy(c => c.CreatedDate))
 
 
