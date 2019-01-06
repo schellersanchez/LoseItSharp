@@ -26,7 +26,7 @@ namespace LoseItSharp.Services
             _db.SaveChanges();
         }
 
-        public Match AddMatch(string matchName, DateTime matchStart, DateTime matchEnd, int numberOfWeeks, string createdById)
+        public Match AddMatch(string matchName, DateTime matchStart, DateTime matchEnd, int numberOfWeeks, string createdById, string matchInfo)
         {
             var match = new Match()
             {
@@ -34,7 +34,8 @@ namespace LoseItSharp.Services
                 MatchStart = matchStart,
                 MatchEnd = matchEnd,
                 NumberOfWeeks = numberOfWeeks,
-                CreatedById = createdById
+                CreatedById = createdById,
+                Info = matchInfo
             };
 
             _db.Matches.Add(match);

@@ -204,6 +204,10 @@
     <Compile Include="Migrations\201901040532012_madeWeekNameRequired.Designer.cs">
       <DependentUpon>201901040532012_madeWeekNameRequired.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901060651295_Match.Info.cs" />
+    <Compile Include="Migrations\201901060651295_Match.Info.Designer.cs">
+      <DependentUpon>201901060651295_Match.Info.cs</DependentUpon>
+    </Compile>
     <Compile Include="Services\IDataAccess.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MatchController.cs" />
@@ -357,6 +361,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901040532012_madeWeekNameRequired.resx">
       <DependentUpon>201901040532012_madeWeekNameRequired.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901060651295_Match.Info.resx">
+      <DependentUpon>201901060651295_Match.Info.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

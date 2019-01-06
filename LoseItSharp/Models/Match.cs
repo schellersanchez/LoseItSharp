@@ -26,6 +26,8 @@ namespace LoseItSharp.Models
 
         public string CreatedById { get; set; }
 
+        public string Info { get; set; }
+
         // Relationships
         public List<Participant> Participants { get; set; }
         public List<MatchWeek> MatchWeeks { get; set; }

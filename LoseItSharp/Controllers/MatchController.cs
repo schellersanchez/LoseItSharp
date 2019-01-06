@@ -103,7 +103,7 @@ namespace LoseItSharp.Controllers
             }
 
             //Create match
-            _repository.CreateMatch(Model.MatchStart, Model.NumberOfWeeks, Model.MatchName, User.Identity.GetUserId());
+            _repository.CreateMatch(Model.MatchStart, Model.NumberOfWeeks, Model.MatchName, User.Identity.GetUserId(), Model.Info);
 
             return RedirectToAction("Index");
         }

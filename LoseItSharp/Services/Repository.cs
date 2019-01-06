@@ -70,12 +70,12 @@ namespace LoseItSharp.Services
             _dataAccess.AddCheckIn(userId, matchWeekId);
         }
 
-        public void CreateMatch(DateTime matchStart, int numberOfWeeks, string matchName, string userId)
+        public void CreateMatch(DateTime matchStart, int numberOfWeeks, string matchName, string userId, string matchInfo)
         {
             var matchEnd = matchStart.AddDays(7 * numberOfWeeks).AddMinutes(-1); //11:59pm
 
             //Create match
-            var newMatch =_dataAccess.AddMatch(matchName, matchStart, matchEnd, numberOfWeeks, userId);
+            var newMatch =_dataAccess.AddMatch(matchName, matchStart, matchEnd, numberOfWeeks, userId, matchInfo);
 
             //Create match weeks for match
             CreateMatchWeeks(matchStart, numberOfWeeks, newMatch.Id);
