@@ -8,7 +8,7 @@
 <h2>@Model.MatchName Details</h2>
 <table class="table table-bordered">
     <tr>
-        <td>Number of participants</td>
+        <td width="25%">Number of participants</td>
         <td>@Model.Participants.Count()</td>
     </tr>
     <tr>
@@ -23,34 +23,41 @@
         <td>End Date</td>
         <td>@Model.MatchEnd.ToShortDateString()</td>
     </tr>
+    <tr>
+        <td>Match Info</td>
+        <td>@Model.Info</td>
+    </tr>
 </table>
 <h3>Participants</h3>
 
 @**All weeks and all users**@
-<table class="tableAllWeeks table table-hover table-bordered">
-    <thead>
-        <tr>
-            <th>Name</th>
-            @foreach (var item in Model.MatchWeeks)
-            {
-                <th>@item.StartDate.ToShortDateString() to @item.EndDate.ToShortDateString()</th>
-            }
-        </tr>
-
-    </thead>
-    <tbody>
-        @foreach(var item in Model.Participants)
-        {
+<div class="table-responsive-lg">
+    <table class="tableAllWeeks table table-hover table-bordered">
+        <thead>
             <tr>
-                <td>@item.ApplicationUser.UserName</td>
-                @foreach(var checkin in item.ApplicationUser.CheckIns.OrderBy(c => c.CreatedDate))
+                <th>Name</th>
+                @foreach (var item in Model.MatchWeeks)
                 {
-                    <td>
-                        @Html.ActionLink(checkin.Weight.ToString(), "Update", "CheckIn", new { @Id = checkin.Id }, new { @class = "" })
-                    </td>
+                    <th>@item.StartDate.ToShortDateString() to @item.EndDate.ToShortDateString()</th>
                 }
             </tr>
-        }
-    </tbody>
 
-</table>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Participants)
+            {
+                <tr>
+                    <td>@item.ApplicationUser.UserName</td>
+                    @foreach (var checkin in item.ApplicationUser.CheckIns.OrderBy(c => c.CreatedDate))
+                    {
+                        <td>
+                            @Html.ActionLink(checkin.Weight.ToString(), "Update", "CheckIn", new { @Id = checkin.Id }, new { @class = "" })
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+</div>
