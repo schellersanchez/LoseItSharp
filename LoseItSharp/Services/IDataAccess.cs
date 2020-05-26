@@ -9,7 +9,7 @@ namespace LoseItSharp.Services
 {
     public interface IDataAccess
     {
-        ApplicationUser GetUser(string userId);
+        AspNetUser GetUser(string userId);
         CheckIn GetCheckIn(int checkInId);
         List<CheckIn> GetAllCheckInsForWeek(int matchWeekId);
         List<CheckIn> GetCheckInsForUser(string userId);

@@ -8,7 +8,7 @@ namespace LoseItSharp.Services
 {
     public class WorkingDataAccess : IDataAccess
     {
-        private ApplicationDbContext _db = new ApplicationDbContext();
+        private Entities _db = new Entities();
 
         public void AddCheckIn(string userId, int matchWeekId)
         {
@@ -116,9 +116,9 @@ namespace LoseItSharp.Services
             return _db.Participants.Find(participantId);
         }
 
-        public ApplicationUser GetUser(string userId)
+        public AspNetUser GetUser(string userId)
         {
-            return _db.Users.Where(u => u.Id == userId).FirstOrDefault();
+            return _db.AspNetUsers.Where(u => u.Id == userId).FirstOrDefault();
         }
 
         public void UpdateCheckIn(int checkInId, DateTime lastModifiedDate, float weight)

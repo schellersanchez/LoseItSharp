@@ -129,8 +129,8 @@ namespace LoseItSharp.Controllers
             model.Participants = _repository.GetAllParticipantsInMatch(matchId);
             foreach(var participant in model.Participants)
             {
-                participant.ApplicationUser = _repository.GetUser(participant.ApplicationUserId);
-                participant.ApplicationUser.CheckIns = _repository.GetCheckInsForUser(participant.ApplicationUserId, matchId);
+                participant.AspNetUser = _repository.GetUser(participant.ApplicationUserId);
+                participant.AspNetUser.CheckIns = _repository.GetCheckInsForUser(participant.ApplicationUserId, matchId);
                 //participant.Match = _repository.GetMatch(participant.MatchId);
             }
 

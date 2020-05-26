@@ -1,0 +1,519 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CheckIns">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="LastModifiedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedById" Type="nvarchar(max)" />
+          <Property Name="Weight" Type="real" Nullable="false" />
+          <Property Name="ApplicationUserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="MatchWeekId" Type="int" />
+        </EntityType>
+        <EntityType Name="Matches">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MatchStart" Type="datetime" Nullable="false" />
+          <Property Name="MatchEnd" Type="datetime" Nullable="false" />
+          <Property Name="NumberOfWeeks" Type="int" Nullable="false" />
+          <Property Name="MatchName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CreatedById" Type="nvarchar(max)" />
+          <Property Name="Info" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="MatchWeeks">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StartDate" Type="datetime" Nullable="false" />
+          <Property Name="EndDate" Type="datetime" Nullable="false" />
+          <Property Name="WeekNumber" Type="int" Nullable="false" />
+          <Property Name="MatchId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Participants">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IsMatchAdmin" Type="bit" Nullable="false" />
+          <Property Name="MatchId" Type="int" Nullable="false" />
+          <Property Name="ApplicationUserId" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_CheckIns_dbo_AspNetUsers_ApplicationUserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="CheckIns" Type="Self.CheckIns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CheckIns">
+              <PropertyRef Name="ApplicationUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_CheckIns_dbo_MatchWeeks_MatchWeekId">
+          <End Role="MatchWeeks" Type="Self.MatchWeeks" Multiplicity="0..1" />
+          <End Role="CheckIns" Type="Self.CheckIns" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MatchWeeks">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CheckIns">
+              <PropertyRef Name="MatchWeekId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_MatchWeeks_dbo_Matches_MatchId">
+          <End Role="Matches" Type="Self.Matches" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MatchWeeks" Type="Self.MatchWeeks" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Matches">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MatchWeeks">
+              <PropertyRef Name="MatchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Participants_dbo_AspNetUsers_ApplicationUserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="Participants" Type="Self.Participants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Participants">
+              <PropertyRef Name="ApplicationUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Participants_dbo_Matches_MatchId">
+          <End Role="Matches" Type="Self.Matches" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Participants" Type="Self.Participants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Matches">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Participants">
+              <PropertyRef Name="MatchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CheckIns" EntityType="Self.CheckIns" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Matches" EntityType="Self.Matches" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MatchWeeks" EntityType="Self.MatchWeeks" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Participants" EntityType="Self.Participants" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_CheckIns_dbo_AspNetUsers_ApplicationUserId" Association="Self.FK_dbo_CheckIns_dbo_AspNetUsers_ApplicationUserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="CheckIns" EntitySet="CheckIns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_CheckIns_dbo_MatchWeeks_MatchWeekId" Association="Self.FK_dbo_CheckIns_dbo_MatchWeeks_MatchWeekId">
+            <End Role="MatchWeeks" EntitySet="MatchWeeks" />
+            <End Role="CheckIns" EntitySet="CheckIns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_MatchWeeks_dbo_Matches_MatchId" Association="Self.FK_dbo_MatchWeeks_dbo_Matches_MatchId">
+            <End Role="Matches" EntitySet="Matches" />
+            <End Role="MatchWeeks" EntitySet="MatchWeeks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Participants_dbo_AspNetUsers_ApplicationUserId" Association="Self.FK_dbo_Participants_dbo_AspNetUsers_ApplicationUserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Participants" EntitySet="Participants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Participants_dbo_Matches_MatchId" Association="Self.FK_dbo_Participants_dbo_Matches_MatchId">
+            <End Role="Matches" EntitySet="Matches" />
+            <End Role="Participants" EntitySet="Participants" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+          <NavigationProperty Name="CheckIns" Relationship="Self.FK_dbo_CheckIns_dbo_AspNetUsers_ApplicationUserId" FromRole="AspNetUsers" ToRole="CheckIns" />
+          <NavigationProperty Name="Participants" Relationship="Self.FK_dbo_Participants_dbo_AspNetUsers_ApplicationUserId" FromRole="AspNetUsers" ToRole="Participants" />
+        </EntityType>
+        <EntityType Name="CheckIn">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedById" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Weight" Type="Single" Nullable="false" />
+          <Property Name="ApplicationUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="MatchWeekId" Type="Int32" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_CheckIns_dbo_AspNetUsers_ApplicationUserId" FromRole="CheckIns" ToRole="AspNetUsers" />
+          <NavigationProperty Name="MatchWeek" Relationship="Self.FK_dbo_CheckIns_dbo_MatchWeeks_MatchWeekId" FromRole="CheckIns" ToRole="MatchWeeks" />
+        </EntityType>
+        <EntityType Name="Match">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MatchStart" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="MatchEnd" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="NumberOfWeeks" Type="Int32" Nullable="false" />
+          <Property Name="MatchName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedById" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MatchWeeks" Relationship="Self.FK_dbo_MatchWeeks_dbo_Matches_MatchId" FromRole="Matches" ToRole="MatchWeeks" />
+          <NavigationProperty Name="Participants" Relationship="Self.FK_dbo_Participants_dbo_Matches_MatchId" FromRole="Matches" ToRole="Participants" />
+        </EntityType>
+        <EntityType Name="MatchWeek">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="WeekNumber" Type="Int32" Nullable="false" />
+          <Property Name="MatchId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CheckIns" Relationship="Self.FK_dbo_CheckIns_dbo_MatchWeeks_MatchWeekId" FromRole="MatchWeeks" ToRole="CheckIns" />
+          <NavigationProperty Name="Match" Relationship="Self.FK_dbo_MatchWeeks_dbo_Matches_MatchId" FromRole="MatchWeeks" ToRole="Matches" />
+        </EntityType>
+        <EntityType Name="Participant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IsMatchAdmin" Type="Boolean" Nullable="false" />
+          <Property Name="MatchId" Type="Int32" Nullable="false" />
+          <Property Name="ApplicationUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_Participants_dbo_AspNetUsers_ApplicationUserId" FromRole="Participants" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Match" Relationship="Self.FK_dbo_Participants_dbo_Matches_MatchId" FromRole="Participants" ToRole="Matches" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_CheckIns_dbo_AspNetUsers_ApplicationUserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+          <End Role="CheckIns" Type="Self.CheckIn" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CheckIns">
+              <PropertyRef Name="ApplicationUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Participants_dbo_AspNetUsers_ApplicationUserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="0..1" />
+          <End Role="Participants" Type="Self.Participant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Participants">
+              <PropertyRef Name="ApplicationUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_CheckIns_dbo_MatchWeeks_MatchWeekId">
+          <End Role="MatchWeeks" Type="Self.MatchWeek" Multiplicity="0..1" />
+          <End Role="CheckIns" Type="Self.CheckIn" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MatchWeeks">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CheckIns">
+              <PropertyRef Name="MatchWeekId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_MatchWeeks_dbo_Matches_MatchId">
+          <End Role="Matches" Type="Self.Match" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MatchWeeks" Type="Self.MatchWeek" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Matches">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="MatchWeeks">
+              <PropertyRef Name="MatchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Participants_dbo_Matches_MatchId">
+          <End Role="Matches" Type="Self.Match" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Participants" Type="Self.Participant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Matches">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Participants">
+              <PropertyRef Name="MatchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
+          <EntitySet Name="CheckIns" EntityType="Self.CheckIn" />
+          <EntitySet Name="Matches" EntityType="Self.Match" />
+          <EntitySet Name="MatchWeeks" EntityType="Self.MatchWeek" />
+          <EntitySet Name="Participants" EntityType="Self.Participant" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_CheckIns_dbo_AspNetUsers_ApplicationUserId" Association="Self.FK_dbo_CheckIns_dbo_AspNetUsers_ApplicationUserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="CheckIns" EntitySet="CheckIns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Participants_dbo_AspNetUsers_ApplicationUserId" Association="Self.FK_dbo_Participants_dbo_AspNetUsers_ApplicationUserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Participants" EntitySet="Participants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_CheckIns_dbo_MatchWeeks_MatchWeekId" Association="Self.FK_dbo_CheckIns_dbo_MatchWeeks_MatchWeekId">
+            <End Role="MatchWeeks" EntitySet="MatchWeeks" />
+            <End Role="CheckIns" EntitySet="CheckIns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_MatchWeeks_dbo_Matches_MatchId" Association="Self.FK_dbo_MatchWeeks_dbo_Matches_MatchId">
+            <End Role="Matches" EntitySet="Matches" />
+            <End Role="MatchWeeks" EntitySet="MatchWeeks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Participants_dbo_Matches_MatchId" Association="Self.FK_dbo_Participants_dbo_Matches_MatchId">
+            <End Role="Matches" EntitySet="Matches" />
+            <End Role="Participants" EntitySet="Participants" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="Model.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="Model.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="Model.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CheckIns">
+            <EntityTypeMapping TypeName="Model.CheckIn">
+              <MappingFragment StoreEntitySet="CheckIns">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="CreatedById" ColumnName="CreatedById" />
+                <ScalarProperty Name="Weight" ColumnName="Weight" />
+                <ScalarProperty Name="ApplicationUserId" ColumnName="ApplicationUserId" />
+                <ScalarProperty Name="MatchWeekId" ColumnName="MatchWeekId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Matches">
+            <EntityTypeMapping TypeName="Model.Match">
+              <MappingFragment StoreEntitySet="Matches">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MatchStart" ColumnName="MatchStart" />
+                <ScalarProperty Name="MatchEnd" ColumnName="MatchEnd" />
+                <ScalarProperty Name="NumberOfWeeks" ColumnName="NumberOfWeeks" />
+                <ScalarProperty Name="MatchName" ColumnName="MatchName" />
+                <ScalarProperty Name="CreatedById" ColumnName="CreatedById" />
+                <ScalarProperty Name="Info" ColumnName="Info" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MatchWeeks">
+            <EntityTypeMapping TypeName="Model.MatchWeek">
+              <MappingFragment StoreEntitySet="MatchWeeks">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="WeekNumber" ColumnName="WeekNumber" />
+                <ScalarProperty Name="MatchId" ColumnName="MatchId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Participants">
+            <EntityTypeMapping TypeName="Model.Participant">
+              <MappingFragment StoreEntitySet="Participants">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="IsMatchAdmin" ColumnName="IsMatchAdmin" />
+                <ScalarProperty Name="MatchId" ColumnName="MatchId" />
+                <ScalarProperty Name="ApplicationUserId" ColumnName="ApplicationUserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

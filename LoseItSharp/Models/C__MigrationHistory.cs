@@ -12,17 +12,11 @@ namespace LoseItSharp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class CheckIn
+    public partial class C__MigrationHistory
     {
-        public int Id { get; set; }
-        public System.DateTime CreatedDate { get; set; }
-        public System.DateTime LastModifiedDate { get; set; }
-        public string CreatedById { get; set; }
-        public float Weight { get; set; }
-        public string ApplicationUserId { get; set; }
-        public Nullable<int> MatchWeekId { get; set; }
-    
-        public virtual AspNetUser AspNetUser { get; set; }
-        public virtual MatchWeek MatchWeek { get; set; }
+        public string MigrationId { get; set; }
+        public string ContextKey { get; set; }
+        public byte[] Model { get; set; }
+        public string ProductVersion { get; set; }
     }
 }

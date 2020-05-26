@@ -116,7 +116,7 @@ namespace LoseItSharp.Services
             _dataAccess.UpdateCheckIn(checkInId, DateTime.Now, weight);
         }
 
-        public ApplicationUser GetUser (string userId)
+        public AspNetUser GetUser (string userId)
         {
             return _dataAccess.GetUser(userId);
         }
