@@ -47,8 +47,8 @@
             @foreach (var item in Model.Participants)
             {
                 <tr>
-                    <td>@item.ApplicationUser.UserName</td>
-                    @foreach (var checkin in item.ApplicationUser.CheckIns.OrderBy(c => c.CreatedDate))
+                    <td>@item.AspNetUser.UserName</td>
+                    @foreach (var checkin in item.AspNetUser.CheckIns.OrderBy(c => c.CreatedDate))
                     {
                         <td>
                             @Html.ActionLink(checkin.Weight.ToString(), "Update", "CheckIn", new { @Id = checkin.Id }, new { @class = "" })
